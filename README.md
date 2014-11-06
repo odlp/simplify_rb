@@ -1,5 +1,7 @@
 # SimplifyRb - Polyline simplification
 
+[![Codeship Status for odlp/simplify_rb](https://www.codeship.io/projects/2a8ed250-47d5-0132-a14f-46b32a25e7b0/status)](https://www.codeship.io/projects/45709)
+
 SimplifyRb is a Ruby port of [simplify.js](https://github.com/mourner/simplify-js) by Vladimir Agafonkin. 
 
 You can use this gem to reduce the number of points in a complex polyline / polygon, making use of an optimized Douglas-Peucker algorithm.
