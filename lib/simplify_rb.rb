@@ -21,7 +21,7 @@ class SimplifyRb
     new_points = [points.first]
 
     points.each do |point|
-      new_points << point if (getSqDist(point, new_points.last) > sq_tolerance)
+      new_points << point if (getSqDist(point, new_points.last) > sq_tolerance) or (point.has_key? :keep and point[:keep])
     end
 
     new_points << points.last unless new_points.last == points.last
@@ -45,7 +45,12 @@ class SimplifyRb
 
       ((first + 1)...last).each do |i|
         sq_dist = getSqSegDist(points[i], points[first], points[last])
-
+				
+				if points[i].has_key? :keep and points[i][:keep]
+					index = i
+					break
+				end
+				
         if sq_dist > max_sq_dist
           index = i
           max_sq_dist = sq_dist

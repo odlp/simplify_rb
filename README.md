@@ -28,7 +28,7 @@ require 'simplify_rb'
 SimplifyRb.simplify(points, tolerance, high_quality)
 ```
 
-```points```: An array of hashes, containing x,y coordinates: ```{x: 51.5256, y: -0.0875}```
+```points```: An array of hashes, containing x,y coordinates: ```{x: 51.5256, y: -0.0875, keep: true}``` (field keep is optional)
 
 ```tolerance```: (optional, 1 by default): Affects the amount of simplification that occurs (the smaller, the less simplification)
 
