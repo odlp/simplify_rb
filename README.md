@@ -1,6 +1,6 @@
 # SimplifyRb - Polyline simplification
 
-SimplifyRb is a Ruby port of [simplify.js](https://github.com/mourner/simplify-js) by Vladimir Agafonkin. 
+SimplifyRb is a Ruby port of [simplify.js](https://github.com/mourner/simplify-js) by Vladimir Agafonkin.
 
 You can use this gem to reduce the number of points in a complex polyline / polygon, making use of an optimized Douglas-Peucker algorithm.
 
@@ -23,11 +23,15 @@ Or install it yourself as:
 ```ruby
 require 'simplify_rb'
 
+points = [{x: 51.5256, y: -0.0875}, {x: 51.7823, y: -0.0912}]
+tolerance = 1
+high_quality = true
+
 SimplifyRb.simplify(points, tolerance, high_quality)
 ```
 
-```points```: An array of hashes, containing x,y coordinates: ```{x: 51.5256, y: -0.0875}```
+```points```: An array of hashes, containing x,y coordinates.
 
-```tolerance```: (optional, 1 by default): Affects the amount of simplification that occurs (the smaller, the less simplification)
+```tolerance```: (optional, 1 by default): Affects the amount of simplification that occurs (the smaller, the less simplification).
 
-```highestQuality```: (optional, False by default): Flag to exclude the distance pre-processing. Produces higher quality results when true is passed, but runs slower
+```highestQuality```: (optional, False by default): Flag to exclude the distance pre-processing. Produces higher quality results when true is passed, but runs slower.
