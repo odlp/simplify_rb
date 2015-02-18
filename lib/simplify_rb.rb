@@ -3,6 +3,8 @@ require "simplify_rb/version"
 class SimplifyRb
   # Main method
   def self.simplify (points, tolerance=1, highest_quality=false)
+    raise ArgumentError.new('Points must be an array') unless points.is_a? Array
+
     return points if points.length <= 1
 
     points = symbolize_keys(points) unless keys_are_symbols?(points.map(&:keys))

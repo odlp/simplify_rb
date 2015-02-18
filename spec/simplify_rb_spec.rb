@@ -23,6 +23,12 @@ describe SimplifyRb do
     expect(SimplifyRb.simplify([])).to eq([])
   end
 
+  it "raises an argument error if the points are passsed as an array" do
+    data = {x: 1, y: 2}
+
+    expect { SimplifyRb.simplify(data) }.to raise_error(ArgumentError, "Points must be an array")
+  end
+
   describe "#keys_are_symbols?" do
     it "returns false if any key is not a Symbol" do
       expect(SimplifyRb.keys_are_symbols? [:a, 'b', :c]).to equal(false)
