@@ -4,11 +4,11 @@ describe SimplifyRb do
   context "simplifies points correctly with the given tolerance" do
     before(:each) {@test_data = SimplifyTestData::points}
 
-    it "with the fast strategy (default)" do
+    it "uses the fast strategy by default" do
       expect(SimplifyRb.simplify(@test_data, 5)).to eq(SimplifyTestData::result_fast)
     end
 
-    it "with the high quality strategy" do
+    it "uses the high quality strategy when the flag is passed" do
       expect(SimplifyRb.simplify(@test_data, 5, true)).to eq(SimplifyTestData::result_high_quality)
     end
   end
@@ -23,18 +23,18 @@ describe SimplifyRb do
     expect(SimplifyRb.simplify([])).to eq([])
   end
 
-  context "#keys_are_symbols?" do
-    it "should return false if any key is not a Symbol" do
+  describe "#keys_are_symbols?" do
+    it "returns false if any key is not a Symbol" do
       expect(SimplifyRb.keys_are_symbols? [:a, 'b', :c]).to equal(false)
     end
 
-    it "should return true if all the keys are Symbols" do
+    it "returns return true if all the keys are Symbols" do
       expect(SimplifyRb.keys_are_symbols? [:a, :b, :c]).to equal(true)
     end
   end
 
-  context "#symbolize_keys" do
-    it "should convert all of the collection's keys to symbols" do
+  describe "#symbolize_keys" do
+    it "converts all of the collection's keys to symbols" do
       collection = [{'a' => 1, 'b' => 2}, {'c' => 3}]
 
       expect(SimplifyRb.symbolize_keys(collection)).to eq([{a: 1, b: 2}, {c: 3}])
