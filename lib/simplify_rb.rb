@@ -5,13 +5,13 @@ class SimplifyRb
   def self.simplify (points, tolerance=1, highest_quality=false)
     return points if points.length <= 1
 
-    points = symbolize_keys(points) unless keys_are_symbols?(points.map{|p| p.keys})
+    points = symbolize_keys(points) unless keys_are_symbols?(points.map(&:keys))
 
     sq_tolerance = tolerance * tolerance
-  
+
     # Optimisation step 1
     points = simplifyRadialDist(points, sq_tolerance) unless highest_quality
-    
+
     # Optimisation step 2
     simplifyDouglasPeucker(points, sq_tolerance)
   end
@@ -31,11 +31,10 @@ class SimplifyRb
 
   # Simplification using optimized Douglas-Peucker algorithm with recursion elimination
   def self.simplifyDouglasPeucker (points, sq_tolerance)
-    length  = points.length
-    first   = 0
-    last    = length - 1
-    index   = nil
-    stack   = []
+    first = 0
+    last  = points.length - 1
+    index = nil
+    stack = []
 
     points.first[:keep] = true
     points.last[:keep]  = true
@@ -58,12 +57,10 @@ class SimplifyRb
         stack.push(first, index, index, last)
       end
 
-      last  = stack.pop
-      first = stack.pop
-
+      first, last = stack.pop(2)
     end # end while
 
-    points.keep_if { |p| p[:keep] && p.delete(:keep) }
+    points.select { |p| p[:keep] && p.delete(:keep) }
   end
 
   # Square distance between two points
@@ -87,6 +84,7 @@ class SimplifyRb
       if t > 1
         x = point_2[:x]
         y = point_2[:y]
+
       elsif t > 0
         x += dx * t
         y += dy * t
