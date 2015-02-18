@@ -36,4 +36,4 @@ SimplifyRb.simplify(points, tolerance, high_quality)
 
 ```tolerance```: (optional, 1 by default): Affects the amount of simplification that occurs (the smaller, the less simplification).
 
-```highestQuality```: (optional, False by default): Flag to exclude the distance pre-processing. Produces higher quality results when true is passed, but runs slower.
+```high_quality```: (optional, False by default): Flag to exclude the distance pre-processing. Produces higher quality results when true is passed, but runs slower.
