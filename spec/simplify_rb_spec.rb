@@ -23,7 +23,7 @@ describe SimplifyRb do
     expect(SimplifyRb.simplify([])).to eq([])
   end
 
-  it "raises an argument error if the points are passsed as an array" do
+  it "raises an argument error if the points are not passsed as an array" do
     data = {x: 1, y: 2}
 
     expect { SimplifyRb.simplify(data) }.to raise_error(ArgumentError, "Points must be an array")
