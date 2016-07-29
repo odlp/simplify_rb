@@ -7,7 +7,7 @@ class SimplifyRb
 
     return points if points.length <= 1
 
-    points = symbolize_keys(points) unless keys_are_symbols?(points.map(&:keys))
+    points = symbolize_keys(points) unless points.all? { |p| keys_are_symbols?(p.keys) }
 
     sq_tolerance = tolerance * tolerance
 
