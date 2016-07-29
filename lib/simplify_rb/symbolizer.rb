@@ -1,4 +1,4 @@
-module SimplifyRbUtils
+module SimplifyRb
   class Symbolizer
     def keys_are_symbols?(keys)
       keys.all? { |k| k.is_a? Symbol }

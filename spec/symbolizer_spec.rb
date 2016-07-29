@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'simplify_rb/symbolizer'
 
-describe SimplifyRbUtils::Symbolizer do
+describe SimplifyRb::Symbolizer do
   describe '#keys_are_symbols?' do
     it 'returns false if any key is not a Symbol' do
       expect(subject.keys_are_symbols?([:a, 'b', :c])).to equal(false)

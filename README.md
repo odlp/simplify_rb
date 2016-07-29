@@ -25,11 +25,14 @@ Or install it yourself as:
 ```ruby
 require 'simplify_rb'
 
-points = [{x: 51.5256, y: -0.0875}, {x: 51.7823, y: -0.0912}]
+points = [
+  { x: 51.5256, y: -0.0875 },
+  { x: 51.7823, y: -0.0912 }
+]
 tolerance = 1
 high_quality = true
 
-SimplifyRb.simplify(points, tolerance, high_quality)
+SimplifyRb::Simplifier.new.process(points, tolerance, high_quality)
 ```
 
 ```points```: An array of hashes, containing x,y coordinates.
