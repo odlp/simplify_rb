@@ -1,8 +1,8 @@
-require "simplify_rb/version"
+require 'simplify_rb/version'
 
 class SimplifyRb
-  # Main method
-  def self.simplify (points, tolerance=1, highest_quality=false)
+
+  def self.simplify(points, tolerance = 1, highest_quality = false)
     raise ArgumentError.new('Points must be an array') unless points.is_a? Array
 
     return points if points.length <= 1
@@ -12,18 +12,18 @@ class SimplifyRb
     sq_tolerance = tolerance * tolerance
 
     # Optimisation step 1
-    points = simplifyRadialDist(points, sq_tolerance) unless highest_quality
+    points = simplify_radial_dist(points, sq_tolerance) unless highest_quality
 
     # Optimisation step 2
-    simplifyDouglasPeucker(points, sq_tolerance)
+    simplify_douglas_peucker(points, sq_tolerance)
   end
 
   # Basic distance-based simplification
-  def self.simplifyRadialDist (points, sq_tolerance)
+  def self.simplify_radial_dist(points, sq_tolerance)
     new_points = [points.first]
 
     points.each do |point|
-      new_points << point if (getSqDist(point, new_points.last) > sq_tolerance)
+      new_points << point if (get_sq_dist(point, new_points.last) > sq_tolerance)
     end
 
     new_points << points.last unless new_points.last == points.last
@@ -32,7 +32,7 @@ class SimplifyRb
   end
 
   # Simplification using optimized Douglas-Peucker algorithm with recursion elimination
-  def self.simplifyDouglasPeucker (points, sq_tolerance)
+  def self.simplify_douglas_peucker(points, sq_tolerance)
     first = 0
     last  = points.length - 1
     index = nil
@@ -41,11 +41,11 @@ class SimplifyRb
     points.first[:keep] = true
     points.last[:keep]  = true
 
-    while last do
+    while last
       max_sq_dist = 0
 
       ((first + 1)...last).each do |i|
-        sq_dist = getSqSegDist(points[i], points[first], points[last])
+        sq_dist = get_sq_seg_dist(points[i], points[first], points[last])
 
         if sq_dist > max_sq_dist
           index = i
@@ -66,7 +66,7 @@ class SimplifyRb
   end
 
   # Square distance between two points
-  def self.getSqDist (point_1, point_2)
+  def self.get_sq_dist(point_1, point_2)
     dx = point_1[:x] - point_2[:x]
     dy = point_1[:y] - point_2[:y]
 
@@ -74,13 +74,13 @@ class SimplifyRb
   end
 
   # Square distance from a point to a segment
-  def self.getSqSegDist (point, point_1, point_2)
+  def self.get_sq_seg_dist(point, point_1, point_2)
     x  = point_1[:x]
     y  = point_1[:y]
     dx = point_2[:x] - x
     dy = point_2[:y] - y
 
-    if (dx != 0 || dy != 0)
+    if dx != 0 || dy != 0
       t = ((point[:x] - x) * dx + (point[:y] - y) * dy) / (dx * dx + dy * dy)
 
       if t > 1
@@ -100,12 +100,12 @@ class SimplifyRb
   end
 
   # Check if keys are symbols
-  def self.keys_are_symbols? (keys)
+  def self.keys_are_symbols?(keys)
     keys.all? {|k| k.is_a? Symbol}
   end
 
   # Symbolize all the hash keys in an array of hashes
-  def self.symbolize_keys (collection)
+  def self.symbolize_keys(collection)
     collection.map do |item|
       item.each_with_object({}) { |(k,v), memo| memo[k.to_sym] = v }
     end
