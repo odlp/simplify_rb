@@ -1,4 +1,5 @@
 require 'simplify_rb/version'
+require 'simplify_rb/symbolizer'
 
 class SimplifyRb
 
@@ -7,7 +8,9 @@ class SimplifyRb
 
     return points if points.length <= 1
 
-    points = symbolize_keys(points) unless points.all? { |p| keys_are_symbols?(p.keys) }
+    symbolizer = SimplifyRbUtils::Symbolizer.new
+
+    points = symbolizer.symbolize_keys(points) unless points.all? { |p| symbolizer.keys_are_symbols?(p.keys) }
 
     sq_tolerance = tolerance * tolerance
 
@@ -97,17 +100,5 @@ class SimplifyRb
     dy = point[:y] - y
 
     dx * dx + dy * dy
-  end
-
-  # Check if keys are symbols
-  def self.keys_are_symbols?(keys)
-    keys.all? {|k| k.is_a? Symbol}
-  end
-
-  # Symbolize all the hash keys in an array of hashes
-  def self.symbolize_keys(collection)
-    collection.map do |item|
-      item.each_with_object({}) { |(k,v), memo| memo[k.to_sym] = v }
-    end
   end
 end

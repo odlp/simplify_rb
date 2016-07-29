@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'simplify_rb'
 require File.expand_path('../fixtures/simplify_test_data.rb', __FILE__)
 
 describe SimplifyRb do
@@ -37,26 +38,6 @@ describe SimplifyRb do
         data = { x: 1, y: 2 }
         expect { SimplifyRb.simplify(data) }.to raise_error(ArgumentError, 'Points must be an array')
       end
-    end
-  end
-
-  describe '#keys_are_symbols?' do
-    it 'returns false if any key is not a Symbol' do
-      expect(SimplifyRb.keys_are_symbols?([:a, 'b', :c])).to equal(false)
-    end
-
-    it 'returns return true if all the keys are Symbols' do
-      expect(SimplifyRb.keys_are_symbols?([:a, :b, :c])).to equal(true)
-    end
-  end
-
-  describe '#symbolize_keys' do
-    it 'converts all of the collection\'s keys to symbols' do
-      collection = [{ 'a' => 1, 'b' => 2 }, { 'c' => 3 }]
-      symbolized_result = SimplifyRb.symbolize_keys(collection)
-      expected_result = [{ a: 1, b: 2 }, { c: 3 }]
-
-      expect(symbolized_result).to eq(expected_result)
     end
   end
 end
