@@ -42,7 +42,7 @@ module SimplifyRb
       points.last.keep  = true
 
       perform_simplify_douglas_peucker(points, sq_tolerance)
-        .select { |p| p.keep }
+        .select(&:keep)
     end
 
     def perform_simplify_douglas_peucker(points, sq_tolerance)
