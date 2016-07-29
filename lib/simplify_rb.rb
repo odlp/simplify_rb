@@ -8,27 +8,29 @@ module SimplifyRb
 
       return points if points.length <= 1
 
-      symbolizer = Symbolizer.new
-
-      points = symbolizer.symbolize_keys(points) unless points.all? { |p| symbolizer.keys_are_symbols?(p.keys) }
+      unless all_keys_symbols?(points)
+        points = Symbolizer.new.symbolize_keys(points)
+      end
 
       sq_tolerance = tolerance * tolerance
 
-      # Optimisation step 1
       points = simplify_radial_dist(points, sq_tolerance) unless highest_quality
 
-      # Optimisation step 2
       simplify_douglas_peucker(points, sq_tolerance)
     end
 
     private
+
+    class MaxSqDist < Struct.new(:max_sq_dist, :index)
+    end
 
     # Basic distance-based simplification
     def simplify_radial_dist(points, sq_tolerance)
       new_points = [points.first]
 
       points.each do |point|
-        new_points << point if (get_sq_dist(point, new_points.last) > sq_tolerance)
+        sq_dist = get_sq_dist(point, new_points.last)
+        new_points << point if sq_dist > sq_tolerance
       end
 
       new_points << points.last unless new_points.last == points.last
@@ -36,38 +38,56 @@ module SimplifyRb
       new_points
     end
 
-    # Simplification using optimized Douglas-Peucker algorithm with recursion elimination
+    # Optimized Douglas-Peucker algorithm
     def simplify_douglas_peucker(points, sq_tolerance)
-      first = 0
-      last  = points.length - 1
-      index = nil
-      stack = []
-
       points.first[:keep] = true
       points.last[:keep]  = true
 
-      while last
-        max_sq_dist = 0
+      perform_simplify_douglas_peucker(points, sq_tolerance)
+        .select(&point_marked_keep)
+    end
 
-        ((first + 1)...last).each do |i|
-          sq_dist = get_sq_seg_dist(points[i], points[first], points[last])
+    def perform_simplify_douglas_peucker(points, sq_tolerance)
+      first_i = 0
+      last_i  = points.length - 1
+      index = nil
+      stack = []
 
-          if sq_dist > max_sq_dist
-            index = i
-            max_sq_dist = sq_dist
-          end
-        end
+      while last_i
+        result = calc_max_sq_dist(first_i, last_i, points)
+        index = result.index
 
-        if max_sq_dist > sq_tolerance
+        if result.max_sq_dist > sq_tolerance
           points[index][:keep] = true
 
-          stack.push(first, index, index, last)
+          stack.push(first_i, index, index, last_i)
         end
 
-        first, last = stack.pop(2)
-      end # end while
+        first_i, last_i = stack.pop(2)
+      end
 
-      points.select { |p| p[:keep] && p.delete(:keep) }
+      points
+    end
+
+    def calc_max_sq_dist(first_i, last_i, points)
+      index = nil
+      max_sq_dist = 0
+      range = (first_i + 1)...last_i
+
+      range.each do |i|
+        sq_dist = get_sq_seg_dist(points[i], points[first_i], points[last_i])
+
+        if sq_dist > max_sq_dist
+          index = i
+          max_sq_dist = sq_dist
+        end
+      end
+
+      MaxSqDist.new(max_sq_dist, index)
+    end
+
+    def point_marked_keep
+      ->(p) { p[:keep] && p.delete(:keep) }
     end
 
     # Square distance between two points
@@ -102,6 +122,10 @@ module SimplifyRb
       dy = point[:y] - y
 
       dx * dx + dy * dy
+    end
+
+    def all_keys_symbols?(points)
+      points.all? { |p| Symbolizer.new.keys_are_symbols?(p.keys) }
     end
   end
 end
