@@ -40,3 +40,21 @@ SimplifyRb::Simplifier.new.process(points, tolerance, high_quality)
 ```tolerance```: (optional, 1 by default): Affects the amount of simplification that occurs (the smaller, the less simplification).
 
 ```high_quality```: (optional, False by default): Flag to exclude the distance pre-processing. Produces higher quality results when true is passed, but runs slower.
+
+### Custom points
+
+You can also use custom points, such as a struct or object which responds to `:x` and `:y`, rather than hashes:
+
+```ruby
+CustomPointStruct = Struct.new(:x, :y)
+
+custom_points = [
+  CustomPointStruct.new(51.5256, -0.0875),
+  CustomPointStruct.new(51.7823, -0.0912)
+]
+
+tolerance = 1
+high_quality = true
+
+SimplifyRb::Simplifier.new.process(custom_points, tolerance, high_quality)
+```
