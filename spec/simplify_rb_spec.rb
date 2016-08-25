@@ -20,6 +20,22 @@ describe SimplifyRb::Simplifier do
       end
     end
 
+    describe 'extra properties on the data' do
+      it 'preserves the extra properties' do
+        richer_data = [
+          { x: 51.5256, y: -0.0875, note: 'Foo bar' },
+          { x: 51.7823, y: -0.0912, attr: 123 }
+        ]
+
+        result = subject.process(richer_data, 5, true)
+
+        expect(result.length).to eq 2
+
+        expect(result.first[:note]).to eq 'Foo bar'
+        expect(result.last[:attr]).to eq 123
+      end
+    end
+
     context 'only one point' do
       it 'returns a list with one point' do
         data = [{ x: 1, y: 2 }]

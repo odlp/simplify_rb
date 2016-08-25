@@ -2,7 +2,6 @@
 
 module SimplifyRb
   class DouglasPeuckerSimplifier
-
     def process(points, sq_tolerance)
       points.first.keep = true
       points.last.keep  = true
@@ -13,8 +12,7 @@ module SimplifyRb
 
     private
 
-    class MaxSqDist < Struct.new(:max_sq_dist, :index)
-    end
+    MaxSqDist = Struct.new(:max_sq_dist, :index)
 
     def simplify_douglas_peucker(points, sq_tolerance)
       first_i = 0

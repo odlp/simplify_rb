@@ -18,8 +18,9 @@ module SimplifyRb
         points = RadialDistanceSimplifier.new.process(points, sq_tolerance)
       end
 
-      DouglasPeuckerSimplifier.new.process(points, sq_tolerance)
-        .map(&:to_h)
+      DouglasPeuckerSimplifier.new
+        .process(points, sq_tolerance)
+        .map(&:original_entity)
     end
   end
 end
