@@ -6,20 +6,6 @@ SimplifyRb is a Ruby port of [simplify.js](https://github.com/mourner/simplify-j
 
 You can use this gem to reduce the number of points in a complex polyline / polygon, making use of an optimized Douglas-Peucker algorithm.
 
-## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'simplify_rb'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install simplify_rb
-
 ## Usage
 
 ```ruby
@@ -58,3 +44,17 @@ high_quality = true
 
 SimplifyRb::Simplifier.new.process(custom_points, tolerance, high_quality)
 ```
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'simplify_rb'
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install simplify_rb
