@@ -6,7 +6,7 @@ require 'simplify_rb/douglas_peucker_simplifier'
 module SimplifyRb
   class Simplifier
     def process(raw_points, tolerance = 1, highest_quality = false)
-      raise ArgumentError.new('Points must be an array') unless raw_points.is_a? Array
+      raise ArgumentError.new('raw_points must be enumerable') unless raw_points.is_a? Enumerable
 
       return raw_points if raw_points.length <= 1
 

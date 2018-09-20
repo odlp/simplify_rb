@@ -49,10 +49,19 @@ describe SimplifyRb::Simplifier do
       end
     end
 
-    describe 'unexpected argument' do
-      it 'raises an error if the points are not passsed as an array' do
-        data = { x: 1, y: 2 }
-        expect { subject.process(data) }.to raise_error(ArgumentError, 'Points must be an array')
+    describe 'unexpected arguments' do
+      context 'when raw_points is not enumerable' do
+        it 'raises an ArgumentError' do
+          data = Object.new
+          expect { subject.process(data) }.to raise_error(ArgumentError, 'raw_points must be enumerable')
+        end
+      end
+
+      context "when raw_points is enumerable, but doesn't respond to x/y" do
+        it 'raises an ArgumentError' do
+          data = [{ foo: :bar }, { foo: :bar }]
+          expect { subject.process(data) }.to raise_error(ArgumentError, 'Points must have :x and :y values')
+        end
       end
     end
   end
