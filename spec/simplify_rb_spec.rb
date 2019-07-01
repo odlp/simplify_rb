@@ -1,8 +1,7 @@
-require 'spec_helper'
 require 'simplify_rb'
 require 'yaml'
 
-describe SimplifyRb::Simplifier do
+RSpec.describe SimplifyRb::Simplifier do
   describe '#process' do
     context 'simplifies points correctly with the given tolerance' do
       let(:test_data) { fixture_file('all-points.yml') }
@@ -66,8 +65,10 @@ describe SimplifyRb::Simplifier do
     end
   end
 
+  private
+
   def fixture_file(name)
-    path = File.expand_path("../fixtures/#{name}", __FILE__)
+    path = File.expand_path("fixtures/#{name}", __dir__)
     YAML.load_file(path)
   end
 end

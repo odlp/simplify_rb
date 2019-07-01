@@ -1,7 +1,6 @@
-require 'spec_helper'
 require 'simplify_rb/point'
 
-describe SimplifyRb::Point do
+RSpec.describe SimplifyRb::Point do
   describe 'parsing hashes with string keys' do
     it 'determines the :x, :y value' do
       raw_point = { "x" => 51.5256, "y" => -0.0875 }
