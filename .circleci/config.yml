@@ -1,0 +1,42 @@
+---
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.1
+
+executors:
+  ruby-docker:
+    parameters:
+      ruby-version:
+        type: string
+    docker:
+      - image: circleci/ruby:<<parameters.ruby-version>>
+
+####
+
+jobs:
+  test:
+    parameters:
+      ruby-version:
+        type: string
+    executor:
+      name: ruby-docker
+      ruby-version: <<parameters.ruby-version>>
+    steps:
+      - checkout
+      - ruby/install-deps:
+          with-cache: true
+      - run:
+          name: run tests
+          command: |
+            bundle exec rspec
+
+####
+
+workflows:
+  all-tests:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              ruby-version: ["2.5", "2.6", "2.7", "3.0"]
