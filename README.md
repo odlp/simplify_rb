@@ -1,6 +1,6 @@
 # SimplifyRb - Polyline simplification
 
-[![Build Status](https://travis-ci.org/odlp/simplify_rb.svg?branch=master)](https://travis-ci.org/odlp/simplify_rb) [![Gem Version](https://badge.fury.io/rb/simplify_rb.svg)](https://badge.fury.io/rb/simplify_rb)
+[![Build Status](https://circleci.com/gh/odlp/simplify_rb.svg?style=shield)](https://circleci.com/gh/odlp/simplify_rb) [![Gem Version](https://badge.fury.io/rb/simplify_rb.svg)](https://badge.fury.io/rb/simplify_rb)
 
 SimplifyRb is a Ruby port of [simplify.js](https://github.com/mourner/simplify-js) by Vladimir Agafonkin.
 
