@@ -4,7 +4,7 @@ module SimplifyRb
   class DouglasPeuckerSimplifier
     def process(points, sq_tolerance)
       points.first.keep = true
-      points.last.keep  = true
+      points.last.keep = true
 
       simplify_douglas_peucker(points, sq_tolerance)
         .select(&:keep)
@@ -16,7 +16,7 @@ module SimplifyRb
 
     def simplify_douglas_peucker(points, sq_tolerance)
       first_i = 0
-      last_i  = points.length - 1
+      last_i = points.length - 1
       index = nil
       stack = []
 
@@ -55,8 +55,8 @@ module SimplifyRb
 
     # Square distance from a point to a segment
     def get_sq_seg_dist(point, point_1, point_2)
-      x  = point_1.x
-      y  = point_1.y
+      x = point_1.x
+      y = point_1.y
       dx = point_2.x - x
       dy = point_2.y - y
 
