@@ -1,12 +1,12 @@
-require 'simplify_rb/version'
-require 'simplify_rb/point'
-require 'simplify_rb/radial_distance_simplifier'
-require 'simplify_rb/douglas_peucker_simplifier'
+require "simplify_rb/version"
+require "simplify_rb/point"
+require "simplify_rb/radial_distance_simplifier"
+require "simplify_rb/douglas_peucker_simplifier"
 
 module SimplifyRb
   class Simplifier
     def process(raw_points, tolerance = 1, highest_quality = false)
-      raise ArgumentError.new('raw_points must be enumerable') unless raw_points.is_a? Enumerable
+      raise ArgumentError.new("raw_points must be enumerable") unless raw_points.is_a? Enumerable
 
       return raw_points if raw_points.length <= 1
 

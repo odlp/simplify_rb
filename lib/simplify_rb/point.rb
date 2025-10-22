@@ -21,16 +21,16 @@ module SimplifyRb
       x = nil
       y = nil
 
-      if raw_point.kind_of? Hash
-        x = raw_point[:x] || raw_point['x']
-        y = raw_point[:y] || raw_point['y']
+      if raw_point.is_a? Hash
+        x = raw_point[:x] || raw_point["x"]
+        y = raw_point[:y] || raw_point["y"]
       elsif raw_point.respond_to?(:x) && raw_point.respond_to?(:y)
         x = raw_point.x
         y = raw_point.y
       end
 
       if x.nil? || y.nil?
-        raise ArgumentError.new('Points must have :x and :y values')
+        raise ArgumentError.new("Points must have :x and :y values")
       end
 
       [x, y]

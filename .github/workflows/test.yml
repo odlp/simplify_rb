@@ -17,3 +17,5 @@ jobs:
           bundler-cache: true
       - name: RSpec
         run: bundle exec rspec
+      - name: Standard
+        run: bundle exec standardrb --no-fix

@@ -1,9 +1,9 @@
-require 'simplify_rb/point'
+require "simplify_rb/point"
 
 RSpec.describe SimplifyRb::Point do
-  describe 'parsing hashes with string keys' do
-    it 'determines the :x, :y value' do
-      raw_point = { "x" => 51.5256, "y" => -0.0875 }
+  describe "parsing hashes with string keys" do
+    it "determines the :x, :y value" do
+      raw_point = {"x" => 51.5256, "y" => -0.0875}
       point = described_class.new(raw_point)
 
       expect(point.x).to eq(51.5256)
@@ -11,10 +11,10 @@ RSpec.describe SimplifyRb::Point do
     end
   end
 
-  describe 'parsing structs' do
-    it 'determines the :x, :y value' do
-      CustomPointStruct = Struct.new(:x, :y)
-      raw_point = CustomPointStruct.new(51.5256, -0.0875)
+  describe "parsing structs" do
+    it "determines the :x, :y value" do
+      custom_point_struct = Struct.new(:x, :y)
+      raw_point = custom_point_struct.new(51.5256, -0.0875)
 
       point = described_class.new(raw_point)
 
@@ -23,9 +23,9 @@ RSpec.describe SimplifyRb::Point do
     end
   end
 
-  describe 'handling raw points which are objects' do
-    it 'determines the :x, :y value' do
-      class MyCustomPoint
+  describe "handling raw points which are objects" do
+    it "determines the :x, :y value" do
+      my_custom_point = define_class("MyCustomPoint") do
         attr_reader :x, :y
 
         def initialize(x, y)
@@ -34,7 +34,7 @@ RSpec.describe SimplifyRb::Point do
         end
       end
 
-      raw_point = MyCustomPoint.new(51.5256, -0.0875)
+      raw_point = my_custom_point.new(51.5256, -0.0875)
 
       point = described_class.new(raw_point)
 
@@ -43,17 +43,17 @@ RSpec.describe SimplifyRb::Point do
     end
   end
 
-  describe 'missing x/y values' do
-    it 'raises an error if the points are missing keys' do
-      invalid_point = { Z: 51.5256, y: -0.0875 }
-      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, 'Points must have :x and :y values')
+  describe "missing x/y values" do
+    it "raises an error if the points are missing keys" do
+      invalid_point = {Z: 51.5256, y: -0.0875}
+      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, "Points must have :x and :y values")
 
-      invalid_point = { x: 51.5256, Z: -0.0875 }
-      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, 'Points must have :x and :y values')
+      invalid_point = {x: 51.5256, Z: -0.0875}
+      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, "Points must have :x and :y values")
     end
 
-    it 'raises an error if points don\'t respond to x / y' do
-      class UnconventialPoint
+    it "raises an error if points don't respond to x / y" do
+      unconvention_point = define_class("UnconventionPoint") do
         attr_reader :a, :b
 
         def initialize(a, b)
@@ -62,8 +62,16 @@ RSpec.describe SimplifyRb::Point do
         end
       end
 
-      invalid_point = UnconventialPoint.new(51.5256, -0.0875)
-      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, 'Points must have :x and :y values')
+      invalid_point = unconvention_point.new(51.5256, -0.0875)
+      expect { described_class.new(invalid_point) }.to raise_error(ArgumentError, "Points must have :x and :y values")
     end
+  end
+
+  private
+
+  def define_class(name, &block)
+    const = stub_const(name, Class.new)
+    const.class_eval(&block) if block_given?
+    const
   end
 end
